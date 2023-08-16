@@ -11,26 +11,33 @@
     <header class="chat-header">
       <h1>Chat App</h1>
     </header>
-    <div class="message-container">
-      <div class="message sender">
-        <p>Hello! How are you?</p>
-      </div>
-      <div class="message receiver">
-        <p>I'm good, thank you!</p>
-      </div>
-      <!-- Add more messages here -->
-    </div>
-    <div class="message-input">
-      <input type="text" id="input" placeholder="Type your message..." />
-      <button id="send-button">Send</button>
-    </div>
 
-    <aside class="sidebar">
-      <!-- Add contact list or chat previews here -->
-    </aside>
-    <main class="chat-main">
-      <!-- Add chat interface here -->
-    </main>
+    <div class="container">
+      <aside class="sidebar">
+        <div class="contact-list">
+          <!-- Chat preview items will be added here dynamically -->
+        </div>
+      </aside>
+      <div class="chat-container">
+        <div class="currentcontact-info">
+          <img src="./images/user1-avatar.png" alt="User Avatar" class="currentcontact-avatar">
+          <p class="currentcontact-name">Joy</p>
+        </div>
+        <div class="message-container">
+          <div class="message sender">
+            <p>Hello! How are you?</p>
+          </div>
+          <div class="message receiver">
+            <p>I'm good, thank you!</p>
+          </div>
+          <!-- Add more messages here -->
+        </div>
+        <div class="message-input">
+          <input type="text" id="input" placeholder="Type your message..." />
+          <button id="send-button">Send</button>
+        </div>
+      </div>
+    </div>
 
     <script src="/socket.io/socket.io.js"></script>
     <script>
@@ -54,6 +61,30 @@
         messageDiv.innerHTML = `<p>${message}</p>`;
         messageContainer.appendChild(messageDiv);
         messageContainer.scrollTop = messageContainer.scrollHeight;
+      });
+    </script>
+
+    <script>
+      const contacts = [
+        { name: "Joy", lastMessage: "Hello there!", avatar: './images/user1-avatar.png'},
+        { name: "Riya", lastMessage: "How are you?", avatar: './images/user2-avatar.png'},
+        // Add more contacts here
+      ];
+
+      const contactList = document.querySelector(".contact-list");
+
+      // Populate the contact list with chat previews
+      contacts.forEach((contact) => {
+        const contactItem = document.createElement("div");
+        contactItem.classList.add("contact-item");
+        contactItem.innerHTML = `
+          <img src="${contact.avatar}" alt="User Avatar" class="avatar">
+          <div class="contact-info">
+            <p class="contact-name">${contact.name}</p>
+            <p class="last-message">${contact.lastMessage}</p>
+          </div>
+        `;
+        contactList.appendChild(contactItem);
       });
     </script>
   </body>
