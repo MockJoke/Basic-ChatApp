@@ -1,33 +1,60 @@
 <!DOCTYPE html>
-<html>
-<head>
-  <title>Basic ChatApp</title>
-</head>
-<body>
-  <ul id="messages"></ul>
-  <form id="form" action="">
-    <input id="input" autocomplete="off" /><button>Send</button>
-  </form>
-  
-  <script src="/socket.io/socket.io.js"></script>
-  <script>
-    const socket = io();
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="styles.css" />
+    <title>Chat App</title>
+  </head>
 
-    document.getElementById('form').addEventListener('submit', (e) => {
-      e.preventDefault(); // Prevent form submission
-      const input = document.getElementById('input');
-      const message = input.value;
-      if (message.trim() !== '') {
-        socket.emit('chat message', message); // Send the message to the server
-        input.value = '';
-      }
-    });
+  <body>
+    <header class="chat-header">
+      <h1>Chat App</h1>
+    </header>
+    <div class="message-container">
+      <div class="message sender">
+        <p>Hello! How are you?</p>
+      </div>
+      <div class="message receiver">
+        <p>I'm good, thank you!</p>
+      </div>
+      <!-- Add more messages here -->
+    </div>
+    <div class="message-input">
+      <input type="text" id="input" placeholder="Type your message..." />
+      <button id="send-button">Send</button>
+    </div>
 
-    socket.on('chat message', (msg) => {
-      const li = document.createElement('li');
-      li.textContent = msg;
-      document.getElementById('messages').appendChild(li);
-    });
-  </script>
-</body>
+    <aside class="sidebar">
+      <!-- Add contact list or chat previews here -->
+    </aside>
+    <main class="chat-main">
+      <!-- Add chat interface here -->
+    </main>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      const socket = io();
+
+      const input = document.getElementById("input");
+      const sendButton = document.getElementById("send-button");
+      const messageContainer = document.querySelector(".message-container");
+
+      sendButton.addEventListener("click", () => {
+        const message = input.value;
+        if (message.trim() !== "") {
+          socket.emit("chat message", message);
+          input.value = "";
+        }
+      });
+
+      socket.on("chat message", (message) => {
+        const messageDiv = document.createElement("div");
+        messageDiv.classList.add("message", "receiver");
+        messageDiv.innerHTML = `<p>${message}</p>`;
+        messageContainer.appendChild(messageDiv);
+        messageContainer.scrollTop = messageContainer.scrollHeight;
+      });
+    </script>
+  </body>
 </html>
