@@ -93,6 +93,8 @@ body, ul {
     padding: 10px 20px; /* Add padding for spacing */
     background-color: #f5f5f5;
     border-bottom: 1px solid #ccc;
+    position: sticky;
+    top: 0;
   }
   
   .currentcontact-avatar {
@@ -154,8 +156,8 @@ body, ul {
     background-color: #fff;
     padding: 10px;
     border-top: 1px solid #ccc;
-    width: 100%;
-    position: sticky; /* Add this line */
+    width: calc(100% - 305px);
+    position: fixed; /* Add this line */
     bottom: 0; /* Add this line */
     box-sizing: border-box;
   }
