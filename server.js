@@ -8,6 +8,8 @@ const io = socketIO(server);
 
 const PORT = process.env.PORT || 3000;
 
+app.use(express.static(__dirname)); // This line serves static files from the current directory
+
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '/index.html');
 });
