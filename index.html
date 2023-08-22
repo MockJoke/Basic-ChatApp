@@ -45,52 +45,7 @@
     </div>
 
     <script src="/socket.io/socket.io.js"></script>
-    <script>
-      const socket = io();
-
-      const input = document.getElementById("input");
-      const sendButton = document.getElementById("send-button");
-      const messageContainer = document.querySelector(".message-container");
-
-      sendButton.addEventListener("click", () => {
-        const message = input.value;
-        if (message.trim() !== "") {
-          socket.emit("chat message", message);
-          input.value = "";
-        }
-      });
-
-      socket.on("chat message", (message) => {
-        const messageDiv = document.createElement("div");
-        messageDiv.classList.add("message", "receiver");
-        messageDiv.innerHTML = `<p>${message}</p>`;
-        messageContainer.appendChild(messageDiv);
-        messageContainer.scrollTop = messageContainer.scrollHeight;
-      });
-    </script>
-
-    <script>
-      const contacts = [
-        { name: "Joy", lastMessage: "Hello there!", avatar: './images/user1-avatar.png'},
-        { name: "Riya", lastMessage: "How are you?", avatar: './images/user2-avatar.png'},
-        // Add more contacts here
-      ];
-
-      const contactList = document.querySelector(".contact-list");
-
-      // Populate the contact list with chat previews
-      contacts.forEach((contact) => {
-        const contactItem = document.createElement("div");
-        contactItem.classList.add("contact-item");
-        contactItem.innerHTML = `
-          <img src="${contact.avatar}" alt="User Avatar" class="avatar">
-          <div class="contact-info">
-            <p class="contact-name">${contact.name}</p>
-            <p class="last-message">${contact.lastMessage}</p>
-          </div>
-        `;
-        contactList.appendChild(contactItem);
-      });
-    </script>
+    <script src="script.js"></script>
+    
   </body>
 </html>
