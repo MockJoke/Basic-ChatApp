@@ -9,20 +9,25 @@
 
   <body>
     <header class="chat-header">
-      <h1>Chat App</h1>
+      <h1>Cheat Chat</h1>
     </header>
 
-    <div class="container">
+    <div class="app-container">
       <aside class="sidebar">
-        <div class="contact-list">
+        <header class="sidebar-header">
+          <h2>
+            Online Users
+          </h2>
+        </header>
+        <ul class="contact-list">
           <!-- Chat preview items will be added here dynamically -->
-        </div>
+        </ul>
       </aside>
-      <div class="chat-container">
-        <div class="currentcontact-info">
+      <section class="chat-container">
+        <header class="currentcontact-info">
           <img src="./images/user1-avatar.png" alt="User Avatar" class="currentcontact-avatar">
           <p class="currentcontact-name">Joy</p>
-        </div>
+        </header>
         <div class="message-container">
           <div class="message sender">
             <p>Hello! How are you?</p>
@@ -36,7 +41,7 @@
           <input type="text" id="input" placeholder="Type your message..." />
           <button id="send-button">Send</button>
         </div>
-      </div>
+      </section>
     </div>
 
     <script src="/socket.io/socket.io.js"></script>

@@ -1,185 +1,158 @@
 /* Reset default margin and padding */
-body, ul {
-    margin: 0;
-    padding: 0;
-  }
-  
-  /* Basic styling */
-  body {
-    font-family: Arial, sans-serif;
-    background-color: #f5f5f5;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end; /* Align the chat interface to the right */
-    min-height: 100vh;
-    margin: 0;
-  }
-  
-  .chat-header {
-    background-color: #075e54;
-    color: #fff;
-    padding: 10px 10px;
-    font-size: 17.5px;
-    text-align: center;
-    width: 100%;
-  }
-  
-  .container {
-    display: flex;
-    align-items: stretch;
-    height: 100vh;
-    width: 100vw;
-    overflow: hidden;
-  }
+body, h1, h2, ul {
+  margin: 0;
+  padding: 0;
+}
 
-  .sidebar {
-    flex: none;
-    min-width: 280px;
-    max-width: 350px;
-    background-color: #f8f9fa; /* Adjust color to match WhatsApp's sidebar */
-    padding: 20px;
-    border-right: 1px solid #e1e2e3; /* Add a border to separate sidebar and chat */
-  }
+/* Set background color and font for the whole app */
+html, body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+}
 
-  .contact-list {
-    padding: 20px;
-    overflow-y: auto;
-  }
-  
-  .contact-item {
-    display: flex;
-    align-items: center;
-    padding: 10px 0;
-    cursor: pointer;
-    border-bottom: 2.5px solid #e1e2e3;
-  }
-  
-  .avatar {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    margin-right: 10px;
-  }
-  
-  .contact-info {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  .contact-name {
-    margin: 0;
-    font-weight: bold;
-  }
-  
-  .last-message {
-    margin: 0;
-    font-size: 14px;
-    color: rgba(255, 255, 255, 0.7);
-  }
+/* Header styles */
+.chat-header {
+  background-color: #0088cc;
+  color: white;
+  padding: 10px;
+  text-align: center;
+}
 
-  .chat-container {
-    display: flex;
-    flex-direction: column;
-    flex: 1; /* Make the chat container take the available space */
-    background-color: #f5f5f5;
-    position: relative;
-    overflow: auto;
-  }
+/* App container */
+.app-container {
+  display: flex;
+  height: 93.5vh;
+}
 
-  .currentcontact-info {
-    display: flex;
-    align-items: center;
-    padding: 10px 20px; /* Add padding for spacing */
-    background-color: #f5f5f5;
-    border-bottom: 1px solid #ccc;
-    position: sticky;
-    top: 0;
-  }
-  
-  .currentcontact-avatar {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    margin-right: 10px;
-  }
-  
-  .currentcontact-name {
-    font-weight: bold;
-    font-size: 16px;
-  }
-  
+/* Sidebar styles */
+.sidebar {
+  min-width: 280px;
+  max-width: 350px;
+  background-color: #fff;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+  flex: 0 0 auto;
+  overflow-y: auto;
+}
 
-  .message-container {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    overflow: auto;
-    padding: 20px;
-    width: 100%;
-    max-width: 100%; /* Adjust the maximum width to cover 65% of the screen */
-    height: 80%;
-    max-height: 80%;
-    box-sizing: border-box;
-    background-color: #e5ddd5;
-    border-radius: 8px;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-  }
-  
-  .message {
-    margin: 10px 0;
-    padding: 10px 15px;
-    border-radius: 8px;
-    max-width: 80%;
-  }
-  
-  .message.sender {
-    background-color: #dcf8c6;
-    align-self: flex-end;
-  }
-  
-  .message.receiver {
-    background-color: #fff;
-    align-self: flex-start;
-    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
-  }
-  
-  .message p {
-    margin: 0;
-  }
-  
-  .message-input {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background-color: #fff;
-    padding: 10px;
-    border-top: 1px solid #ccc;
-    width: calc(100% - 305px);
-    position: fixed; /* Add this line */
-    bottom: 0; /* Add this line */
-    box-sizing: border-box;
-  }
-  
-  #input {
-    flex: 1;
-    padding: 8px;
-    border: none;
-    border-radius: 4px;
-    font-size: 16px;
-    margin-right: 10px;
-    background-color: #f0f0f0;
-    width: 100%; /* Set the width to match the container */
-  }
-  
-  #send-button {
-    background-color: #075e54;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    padding: 8px 16px;
-    cursor: pointer;
-    font-size: 16px;
-  }
-  
+.sidebar-header {
+  background-color: #e4e6eb;
+  padding: 10px;
+}
+
+.contact-list {
+  list-style: none;
+  padding: 0;
+}
+
+.contact-item {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  border-bottom: 1px solid #e4e6eb;
+  cursor: pointer;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.contact-info {
+  flex: 1;
+}
+
+.contact-name {
+  font-weight: bold;
+  font-size: 16px;
+  margin-bottom: 4px;
+}
+
+.last-message {
+  color: #7d8492;
+  font-size: 14px;
+}
+
+/* Chat container styles */
+.chat-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background-color: #fff;
+  border-left: 1px solid #e4e6eb;
+  overflow-y: auto;
+}
+
+.currentcontact-info {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  border-bottom: 1px solid #e4e6eb;
+}
+
+.currentcontact-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.currentcontact-name {
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.message-container {
+  flex: 1;
+  padding: 10px;
+  overflow-y: auto;
+}
+
+.message {
+  max-width: 70%;
+  word-wrap: break-word;
+  border-radius: 8px;
+  padding: 8px 12px;
+  margin: 6px 0;
+}
+
+.sender {
+  background-color: #007bff;
+  color: white;
+  align-self: flex-end;
+}
+
+.receiver {
+  background-color: #e4e6eb;
+  align-self: flex-start;
+}
+
+/* Message input styles */
+.message-input {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #e4e6eb;
+  padding: 10px;
+  border-top: 1px solid #e4e6eb;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+#input {
+  flex: 1;
+  padding: 8px;
+  border: 1px solid #e4e6eb;
+  border-radius: 4px;
+  margin-right: 10px;
+}
+
+#send-button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 15px;
+  cursor: pointer;
+}
