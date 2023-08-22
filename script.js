@@ -29,10 +29,32 @@ socket.on("add initial user list", (initialUserList) => {
 // Fetch initial user list when the app starts
 socket.emit("get initial users");
 
+function replaceWordsWithEmojis(message) {
+  const emojiMap = {
+    ":)": "😄",
+    ":(": "😞",
+    "hey": "👋",
+    "lol": "🤣",
+    "ok": "👌",
+    "woah": "😮",
+    "like": "♥️"
+  };
+
+  const wordsToReplace = Object.keys(emojiMap).map(escapeRegExp);
+  const pattern = new RegExp(wordsToReplace.join("|"), "g");
+
+  return message.replace(pattern, (matched) => emojiMap[matched]);
+}
+
+function escapeRegExp(string) {
+  return string.replace(/[.*+\-?^${}()|[\]\\]/g, '\\$&'); // Escape special characters
+}
+
 sendButton.addEventListener("click", () => {
   const message = input.value;
   if (message.trim() !== "") {
-    socket.emit("chat message", { message, sender: username });
+    const updatedMessage = replaceWordsWithEmojis(message); // Replace words with emojis
+    socket.emit("chat message", { message: updatedMessage, sender: username });
     input.value = "";
   }
 });
@@ -42,7 +64,7 @@ socket.on("chat message", (messageData) => {
   messageDiv.classList.add("message", messageData.sender === username ? "sender" : "receiver");
 
   const messageParagraph = document.createElement("p");
-  messageParagraph.textContent = `${messageData.message.message}`;
+  messageParagraph.textContent = replaceWordsWithEmojis(messageData.message.message); //`${messageData.message.message}`;
   messageDiv.appendChild(messageParagraph);
 
   messageContainer.appendChild(messageDiv);
