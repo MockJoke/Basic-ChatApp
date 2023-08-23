@@ -41,9 +41,9 @@ function replaceWordsWithEmojis(message) {
   };
 
   const wordsToReplace = Object.keys(emojiMap).map(escapeRegExp);
-  const pattern = new RegExp(wordsToReplace.join("|"), "g");
+  const pattern = new RegExp(wordsToReplace.join("|"), "gi");
 
-  return message.replace(pattern, (matched) => emojiMap[matched]);
+  return message.replace(pattern, (matched) => emojiMap[matched.toLowerCase()] || matched);
 }
 
 function escapeRegExp(string) {
