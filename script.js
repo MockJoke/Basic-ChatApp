@@ -29,21 +29,46 @@ socket.on("add initial user list", (initialUserList) => {
 // Fetch initial user list when the app starts
 socket.emit("get initial users");
 
+const emojiMap = {
+  ":)": "😄",
+  ":(": "😞",
+  "hey": "👋",
+  "lol": "🤣",
+  "ok": "👌",
+  "woah": "😮",
+  "like": "♥️"
+};
+
 function replaceWordsWithEmojis(message) {
-  const emojiMap = {
-    ":)": "😄",
-    ":(": "😞",
-    "hey": "👋",
-    "lol": "🤣",
-    "ok": "👌",
-    "woah": "😮",
-    "like": "♥️"
-  };
+  if(!message || typeof message !== 'string') {
+    throw new Error('Message must be a string');
+  }  
 
-  const wordsToReplace = Object.keys(emojiMap).map(escapeRegExp);
-  const pattern = new RegExp(wordsToReplace.join("|"), "gi");
+  const wordsToReplace = Object.keys(emojiMap);
 
-  return message.replace(pattern, (matched) => emojiMap[matched.toLowerCase()] || matched);
+  function getEmoji(word) {
+    if (wordsToReplace.includes(word)) {
+      return emojiMap[word];  
+    }
+    return word;
+  }
+
+  const words = message.split(/\s+/); // Split the message into words
+
+  const updatedWords = words.map(word => {
+      if (word.startsWith(":") && word.endsWith(":")) {
+          const emojiKey = word.slice(1, -1).toLowerCase();
+          return getEmoji(emojiKey);
+      }
+      return word;
+  });
+  
+  return updatedWords.join(" ");
+
+  // const wordsToReplace = Object.keys(emojiMap).map(escapeRegExp);
+  // const pattern = new RegExp(wordsToReplace.join("|"), "gi");
+
+  // return message.replace(pattern, (matched) => emojiMap[matched.toLowerCase()] || matched);
 }
 
 function escapeRegExp(string) {
