@@ -1,7 +1,6 @@
-/* Summary
-
-  Handles Client-side
-
+/** 
+ * Summary
+ * Handles Client-side 
 */
 
 const socket = io();
@@ -20,7 +19,6 @@ socket.on("user connected", (userList) => {
   updateContactList(userList);
 });
 
-// Inside your client-side code
 socket.on("add initial user list", (initialUserList) => {
   // Update the contact list with the initial user list
   updateContactList(initialUserList);
@@ -39,6 +37,11 @@ const emojiMap = {
   "like": "♥️"
 };
 
+/**
+ * Replace words in message with emoji 
+ * @param {string} message - Input message
+ * @returns {string} Message with emoji replacements
+*/
 function replaceWordsWithEmojis(message) {
   if(!message || typeof message !== 'string') {
     throw new Error('Message must be a string');

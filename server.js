@@ -1,7 +1,6 @@
-/* Summary
-
-  Handles Server-side
-
+/** 
+ * Summary
+ * Handles Server-side 
 */
 
 const express = require('express');
