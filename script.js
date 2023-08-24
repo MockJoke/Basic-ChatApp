@@ -78,11 +78,86 @@ function escapeRegExp(string) {
   return string.replace(/[.*+\-?^${}()|[\]\\]/g, '\\$&'); // Escape special characters
 }
 
+function handleSlashCommand(command) {
+  const parts = command.split(' ');
+  const slashCommand = parts[0].toLowerCase();
+
+  switch (slashCommand) {
+    case '/help':
+      // Show help modal
+      const helpModal = document.getElementById('helpModal');
+      const helpClose = document.getElementById('helpClose');
+      helpModal.style.display = 'block';
+
+      helpClose.onclick = function () {
+        helpModal.style.display = 'none';
+      };
+
+      window.onclick = function (event) {
+        if (event.target == helpModal) {
+          helpModal.style.display = 'none';
+        }
+      }
+      break;
+    case '/clear':
+      // Clear messages
+      socket.emit('clear my messages');
+      break;
+    case '/random':
+      socket.emit('generate random number');
+      break;
+    case '/emoji':
+      // Show emoji guide modal
+      const emojiModal = document.getElementById('emojiModal');
+      const emojiClose = document.getElementById('emojiClose');
+      emojiModal.style.display = 'block';
+
+      emojiClose.onclick = function () {
+        emojiModal.style.display = 'none';
+      };
+
+      window.onclick = function (event) {
+        if (event.target == emojiModal) {
+          emojiModal.style.display = 'none';
+        }
+      }
+      break;
+    default:
+      // Unknown slash command
+      break;
+  }
+}
+
+socket.on('clear my messages', () => {
+  messageContainer.innerHTML = ''; // Clear messages on user's screen
+});
+
+socket.on('show random number', (randomNum) => {
+  const messageDiv = document.createElement('div');
+  messageDiv.classList.add('message', 'sender');
+
+  const messageParagraph = document.createElement("p");
+  messageParagraph.textContent = `Here's your random number: ${randomNum}`;
+  messageDiv.appendChild(messageParagraph);
+
+  //messageDiv.textContent = `Here's your random number: ${randomNum}`;
+
+  messageContainer.appendChild(messageDiv);
+  messageContainer.scrollTop = messageContainer.scrollHeight;
+});
+
 sendButton.addEventListener("click", () => {
   const message = input.value;
+
   if (message.trim() !== "") {
-    const updatedMessage = replaceWordsWithEmojis(message); // Replace words with emojis
-    socket.emit("chat message", { message: updatedMessage, sender: username });
+    // Check for slash commands
+    if (message.startsWith('/')) {
+      handleSlashCommand(message);
+    } else {
+      // Regular message
+      const updatedMessage = replaceWordsWithEmojis(message); // Replace words with emojis
+      socket.emit("chat message", { message: updatedMessage, sender: username });
+    }
     input.value = "";
   }
 });
@@ -92,7 +167,7 @@ socket.on("chat message", (messageData) => {
   messageDiv.classList.add("message", messageData.sender === username ? "sender" : "receiver");
 
   const messageParagraph = document.createElement("p");
-  messageParagraph.textContent = replaceWordsWithEmojis(messageData.message.message); //`${messageData.message.message}`;
+  messageParagraph.textContent = replaceWordsWithEmojis(messageData.message.message);
   messageDiv.appendChild(messageParagraph);
 
   messageContainer.appendChild(messageDiv);

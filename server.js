@@ -51,6 +51,19 @@ io.on('connection', (socket) => {
     io.emit('chat message', { message: msg, sender: sender }); // Broadcast the message to all connected clients
   });
 
+  socket.on('clear my messages', () => {
+    socket.emit('clear my messages'); // Emit back to the same user
+  });
+
+  socket.on('show random number', (randomNum) => {
+    socket.emit('show random number', randomNum); // Emit back to the same user
+  });
+
+  socket.on('generate random number', () => {
+    const randomNum = Math.floor(Math.random() * 100);
+    socket.emit('show random number', randomNum); // Emit back to the same user
+  });
+
   socket.on('disconnect', () => {
       console.log('A user disconnected');
       users.delete(socket.id);
