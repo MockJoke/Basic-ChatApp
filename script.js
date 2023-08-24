@@ -8,6 +8,7 @@ const socket = io();
 const input = document.getElementById("input");
 const sendButton = document.getElementById("send-button");
 const messageContainer = document.querySelector(".message-container");
+const onlineUserCountElement = document.getElementById("online-user-count");
 
 const storedValues = {};
 
@@ -288,6 +289,10 @@ socket.on("chat message", (messageData) => {
 
   messageContainer.appendChild(messageDiv);
   messageContainer.scrollTop = messageContainer.scrollHeight;
+});
+
+socket.on('online user count', (count) => {
+  onlineUserCountElement.textContent = count;
 });
 
 const contactList = document.querySelector(".contact-list");

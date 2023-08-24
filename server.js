@@ -43,6 +43,7 @@ io.on('connection', (socket) => {
     const userId = socket.id; // Use socket.id as the key
     users.set(userId, { username, avatar: './images/default-avatar.png', lastMessage: "Welcome to the chat!" });
     io.emit('user connected', Array.from(users.values())); // Send updated user list to all clients
+    io.emit('online user count', users.size);
   });
 
   socket.on('chat message', (msg) => {
@@ -68,6 +69,7 @@ io.on('connection', (socket) => {
       console.log('A user disconnected');
       users.delete(socket.id);
       io.emit('user connected', Array.from(users.values())); // Send updated user list to all clients
+      io.emit('online user count', users.size);
   });
 });
 
