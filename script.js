@@ -145,11 +145,11 @@ socket.on('show random number', (randomNum) => {
   messageContainer.appendChild(messageDiv);
   messageContainer.scrollTop = messageContainer.scrollHeight;
 });
+  
+function sendMessage() {
+  const message = input.value.trim();
 
-sendButton.addEventListener("click", () => {
-  const message = input.value;
-
-  if (message.trim() !== "") {
+  if (message !== "") {
     // Check for slash commands
     if (message.startsWith('/')) {
       handleSlashCommand(message);
@@ -159,6 +159,16 @@ sendButton.addEventListener("click", () => {
       socket.emit("chat message", { message: updatedMessage, sender: username });
     }
     input.value = "";
+  }
+}
+
+sendButton.addEventListener("click", sendMessage);
+
+// Add event listener to input for "Enter" key press
+input.addEventListener("keydown", (event) => {
+  if (event.key === "Enter") {
+    event.preventDefault(); // Prevent the default behavior of the "Enter" key (line break)
+    sendMessage();
   }
 });
 
