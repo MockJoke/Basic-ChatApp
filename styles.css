@@ -10,18 +10,18 @@ html, body {
   background-color: #f4f4f4;
 }
 
+/* App container */
+.app-container {
+  display: flex;
+  height: calc(100vh - 50px - 10px); /* Adjust for header + contact-info height */
+}
+
 /* Header styles */
 .chat-header {
   background-color: #0088cc;
   color: white;
   padding: 10px;
   text-align: center;
-}
-
-/* App container */
-.app-container {
-  display: flex;
-  height: 93.5vh;
 }
 
 /* Sidebar styles */

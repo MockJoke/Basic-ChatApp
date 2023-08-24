@@ -83,9 +83,7 @@ function escapeRegExp(string) {
 function createLogMessageDiv(message, className) {
   const messageDiv = document.createElement('div');
   messageDiv.classList.add('message', className);
-  const messageParagraph = document.createElement('p');
-  messageParagraph.textContent = message;
-  messageDiv.appendChild(messageParagraph);
+  messageDiv.textContent = message;
   return messageDiv;
 }
 
@@ -290,9 +288,7 @@ socket.on("chat message", (messageData) => {
   const messageDiv = document.createElement("div");
   messageDiv.classList.add("message", messageData.sender === username ? "sender" : "receiver");
 
-  const messageParagraph = document.createElement("p");
-  messageParagraph.textContent = replaceWordsWithEmojis(messageData.message.message);
-  messageDiv.appendChild(messageParagraph);
+  messageDiv.textContent = replaceWordsWithEmojis(messageData.message.message);
 
   messageContainer.appendChild(messageDiv);
   messageContainer.scrollTop = messageContainer.scrollHeight;
