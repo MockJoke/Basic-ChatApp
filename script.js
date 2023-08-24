@@ -9,6 +9,8 @@ const input = document.getElementById("input");
 const sendButton = document.getElementById("send-button");
 const messageContainer = document.querySelector(".message-container");
 
+const storedValues = {};
+
 const username = prompt("Please enter your username:");
 if (username) {
   socket.emit("user joined", username);
@@ -78,6 +80,114 @@ function escapeRegExp(string) {
   return string.replace(/[.*+\-?^${}()|[\]\\]/g, '\\$&'); // Escape special characters
 }
 
+function createLogMessageDiv(message, className) {
+  const messageDiv = document.createElement('div');
+  messageDiv.classList.add('message', className);
+  const messageParagraph = document.createElement('p');
+  messageParagraph.textContent = message;
+  messageDiv.appendChild(messageParagraph);
+  return messageDiv;
+}
+
+function handleRemSetCommand(args) {
+  const name = args[0];
+  const value = args.slice(1).join(' ');
+
+  if (!name || !value) {
+    // Missing name or value, show an error message
+    const errorMessage = "Please provide a name and value for /rem set (e.g., /rem set <name> <value>)";
+    const errorDiv = createLogMessageDiv(errorMessage, "log");
+    messageContainer.appendChild(errorDiv);
+    messageContainer.scrollTop = messageContainer.scrollHeight;
+    return;
+  }
+
+  // Store the value associated with the name
+  storedValues[name] = value;
+}
+
+function handleRemGetCommand(args) {
+  const name = args[0];
+
+  if (!name) {
+    // Missing name, show an error message
+    const errorMessage = "Please provide a name for /rem get (e.g., /rem get <name>)";
+    const errorDiv = createLogMessageDiv(errorMessage, "log");
+    messageContainer.appendChild(errorDiv);
+    messageContainer.scrollTop = messageContainer.scrollHeight;
+    return;
+  }
+
+  // Get the stored value associated with the name
+  const storedValue = storedValues[name];
+  if (storedValue !== undefined) {
+    const valueMessage = `Value for ${name}: ${storedValue}`;
+    const valueDiv = createLogMessageDiv(valueMessage, "sender");
+    messageContainer.appendChild(valueDiv);
+    messageContainer.scrollTop = messageContainer.scrollHeight;
+  } else {
+    const notFoundMessage = `Value for ${name} not found`;
+    const notFoundDiv = createLogMessageDiv(notFoundMessage, "sender");
+    messageContainer.appendChild(notFoundDiv);
+    messageContainer.scrollTop = messageContainer.scrollHeight;
+  }
+}
+
+function handleRemCommand(parts) {
+  const subCommand = parts[1];
+
+  if (subCommand === undefined) {
+    // No sub-command provided, show an error message
+    const errorMessage = "Please provide a sub-command for /rem (e.g., /rem <name> <value>)";
+    const errorDiv = createLogMessageDiv(errorMessage, "log");
+    messageContainer.appendChild(errorDiv);
+    messageContainer.scrollTop = messageContainer.scrollHeight;
+    return;
+  }
+
+  switch (subCommand.toLowerCase()) {
+    case 'set':
+      handleRemSetCommand(parts.slice(2));
+      break;
+    case 'get':
+      handleRemGetCommand(parts.slice(2));
+      break;
+    default:
+      // Unknown sub-command
+      const unknownSubCommandMessage = `Unknown /rem sub-command: ${subCommand}`;
+      const unknownSubCommandDiv = createLogMessageDiv(unknownSubCommandMessage, "log");
+      messageContainer.appendChild(unknownSubCommandDiv);
+      messageContainer.scrollTop = messageContainer.scrollHeight;
+      break;
+  }
+}
+
+function handleCalcCommand(args) {
+  const expression = args.join(' ');
+
+  if (!expression) {
+    // Missing expression, show an error message
+    const errorMessage = "Please provide an expression for /calc (e.g., /calc 3+5)";
+    const errorDiv = createLogMessageDiv(errorMessage, "log");
+    messageContainer.appendChild(errorDiv);
+    messageContainer.scrollTop = messageContainer.scrollHeight;
+    return;
+  }
+
+  try {
+    const result = eval(expression); // Evaluate the expression
+    const resultMessage = `${expression} = ${result}`;
+    const resultDiv = createLogMessageDiv(resultMessage, "sender");
+    messageContainer.appendChild(resultDiv);
+    messageContainer.scrollTop = messageContainer.scrollHeight;
+  } catch (error) {
+    const errorMessage = `Error evaluating expression: ${error.message}`;
+    const errorDiv = createLogMessageDiv(errorMessage, "log");
+    messageContainer.appendChild(errorDiv);
+    messageContainer.scrollTop = messageContainer.scrollHeight;
+  }
+}
+
 function handleSlashCommand(command) {
   const parts = command.split(' ');
   const slashCommand = parts[0].toLowerCase();
@@ -122,6 +232,12 @@ function handleSlashCommand(command) {
         }
       }
       break;
+    case '/rem':
+      handleRemCommand(parts);
+      break;
+    case '/calc':
+      handleCalcCommand(parts.slice(1));
+      break;
     default:
       // Unknown slash command
       break;
@@ -139,8 +255,6 @@ socket.on('show random number', (randomNum) => {
   const messageParagraph = document.createElement("p");
   messageParagraph.textContent = `Here's your random number: ${randomNum}`;
   messageDiv.appendChild(messageParagraph);
-
-  //messageDiv.textContent = `Here's your random number: ${randomNum}`;
 
   messageContainer.appendChild(messageDiv);
   messageContainer.scrollTop = messageContainer.scrollHeight;

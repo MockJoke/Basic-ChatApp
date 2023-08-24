@@ -125,7 +125,12 @@ html, body {
 }
 
 .receiver {
-  background-color: #e4e6eb;
+  background-color: #ccced0;
+  align-self: flex-start;
+}
+
+.log {
+  background-color: #f7f435;
   align-self: flex-start;
 }
 
