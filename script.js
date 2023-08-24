@@ -120,12 +120,12 @@ function handleRemGetCommand(args) {
   const storedValue = storedValues[name];
   if (storedValue !== undefined) {
     const valueMessage = `Value for ${name}: ${storedValue}`;
-    const valueDiv = createLogMessageDiv(valueMessage, "sender");
+    const valueDiv = createLogMessageDiv(valueMessage, "log");
     messageContainer.appendChild(valueDiv);
     messageContainer.scrollTop = messageContainer.scrollHeight;
   } else {
     const notFoundMessage = `Value for ${name} not found`;
-    const notFoundDiv = createLogMessageDiv(notFoundMessage, "sender");
+    const notFoundDiv = createLogMessageDiv(notFoundMessage, "log");
     messageContainer.appendChild(notFoundDiv);
     messageContainer.scrollTop = messageContainer.scrollHeight;
   }
@@ -175,7 +175,7 @@ function handleCalcCommand(args) {
   try {
     const result = eval(expression); // Evaluate the expression
     const resultMessage = `${expression} = ${result}`;
-    const resultDiv = createLogMessageDiv(resultMessage, "sender");
+    const resultDiv = createLogMessageDiv(resultMessage, "log");
     messageContainer.appendChild(resultDiv);
     messageContainer.scrollTop = messageContainer.scrollHeight;
   } catch (error) {
@@ -247,14 +247,10 @@ socket.on('clear my messages', () => {
 });
 
 socket.on('show random number', (randomNum) => {
-  const messageDiv = document.createElement('div');
-  messageDiv.classList.add('message', 'sender');
 
-  const messageParagraph = document.createElement("p");
-  messageParagraph.textContent = `Here's your random number: ${randomNum}`;
-  messageDiv.appendChild(messageParagraph);
-
-  messageContainer.appendChild(messageDiv);
+  const resultMessage = `Here's your random number: ${randomNum}`;
+  const resultDiv = createLogMessageDiv(resultMessage, "log");
+  messageContainer.appendChild(resultDiv);
   messageContainer.scrollTop = messageContainer.scrollHeight;
 });
   
